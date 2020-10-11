@@ -1,0 +1,43 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Detach subcategories{% endblock %}
+
+{% block body %}
+    <div class="container rounded bg-white mt-5 mb-5" style="max-width: 700px">
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col-md-12 border-right">
+                <div class="col-md-12 mt-5 profile-flusher">
+                    {% include 'flasher.html.twig' %}
+                </div>
+                <div class="px-3 pt-3">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <h6 class="text-center">Detach subcategories</h6>
+                    </div>
+                </div>
+                {% if not form.children is empty %}
+                    <div class="form-check d-flex justify-content-center flex-wrap" style="overflow: auto">
+                        {% for checkbox in form.children %}
+                            <div class="styled-input-single" style="width: max-content;">
+                                {{ form_widget(checkbox) }}
+                                {{ form_label(checkbox) }}
+                                {{ form_errors(checkbox) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center"><button class="btn btn-primary profile-button mt-4 mb-lg-5" type="submit">Save Changes</button></div>
+                {% else %}
+                    {{ form_widget(form.children, { 'attr': {'class': 'hidden-row'} }) }}
+                    <div class="text-center my-2">
+                        <span class="h-100 alert alert-light text-center " style="width: max-content;">
+                            Nothing to detach
+                        </span>
+                    </div>
+                    <div class="text-center"><a href="{{ path('edit_category', {'id': categoryId}) }}" class="btn btn-primary profile-button mt-2 mb-lg-5" >Return to edit page</a></div>
+                {% endif %}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

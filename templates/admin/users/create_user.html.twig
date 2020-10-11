@@ -1,0 +1,68 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Create new user{% endblock %}
+
+{% block body %}
+    <div class="container rounded bg-white mt-5 mb-5" style="max-width: 700px">
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col-md-12 border-right">
+                <div class="col-md-12 mt-4 profile-flusher">
+                    {% include 'flasher.html.twig' %}
+                </div>
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <h6 class="text-center">Create new user</h6>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label class="labels">Name</label>
+                            {{
+                                form_widget(form.firstName, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'first name'
+                                }})
+                            }}
+                            <span class="text-danger">{{ form_errors(form.firstName) }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Surname</label>
+                            {{
+                                form_widget(form.lastName, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'last name'
+                                }})
+                            }}
+                            <span class="text-danger">{{ form_errors(form.lastName) }}</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label class="labels">Email</label>
+                            {{
+                                form_widget(form.email, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'enter your email'
+                                }})
+                            }}
+                            <span class="text-danger">{{ form_errors(form.email) }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Password</label>
+                            {{
+                                form_widget(form.password, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'enter your password'
+                                }})
+                            }}
+                            <span class="text-danger">{{ form_errors(form.password) }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center"><button class="btn btn-primary profile-button mb-lg-5" type="submit">Create</button></div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block body %}
+    <div class="main-wrapper">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
+             style="background: no-repeat center center; background-color: #c0ccda80">
+            <div class="auth-box row">
+                <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url({{ asset('build/images/big/auth.jpg') }});">
+                </div>
+                <div class="col-lg-5 col-md-7 bg-white">
+                    <div class="p-3">
+                        {% include 'flasher.html.twig' %}
+                        <h2 class="mt-3 text-center">Sign Up</h2>
+                        {{ form_start(form) }}
+                            <div class="row">
+
+                                <div class="col form-group">
+                                    <label class="text-dark" for="uname">Name</label>
+                                    {{ form_widget(form.firstName, {'attr': {
+                                        'class': 'form-control',
+                                        'id': 'uname',
+                                        'placeholder': 'First name'
+                                    }}) }}
+                                    {{ form_errors(form.firstName) }}
+                                </div>
+
+                                <div class="col form-group align-self-end">
+                                    {{ form_widget(form.lastName, {'attr': {
+                                        'class': 'form-control',
+                                        'id': 'uname',
+                                        'placeholder': 'Last name'
+                                    }}) }}
+                                    {{ form_errors(form.lastName) }}
+
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="text-dark" for="uemail">Email</label>
+                                        {{ form_widget(form.email, {'attr': {
+                                            'class': 'form-control',
+                                            'id': 'uemail',
+                                            'placeholder': 'enter your email'
+                                        }}) }}
+                                        {{ form_errors(form.email) }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="text-dark" for="pwd">Password</label>
+                                        {{ form_widget(form.password, {'attr': {
+                                            'class': 'form-control',
+                                            'id': 'pwd',
+                                            'placeholder': 'enter your password'
+                                        }}) }}
+                                        {{ form_errors(form.password) }}
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 text-center">
+                                    <button type="submit" class="btn btn-block btn-dark">Continue</button>
+                                </div>
+                                {{ form_end(form) }}
+                                <div class="or-seperator">
+                                    <i>or</i>
+                                </div>
+                                <div class="col-lg-12 text-center form-group">
+                                    <a class="btn btn-block btn-facebook btn-info" href="{{ path('connect_facebook_start') }}">
+                                        <span>Continue with Facebook</span>
+                                    </a>
+                                </div>
+                                <div class="col-lg-12 text-center">
+                                    <a class="btn btn-block btn-google btn-danger" href="{{ path('connect_google_start') }}">
+                                        <span>Continue with Google</span>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

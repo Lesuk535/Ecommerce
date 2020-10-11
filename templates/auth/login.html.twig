@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log In!{% endblock %}
+
+{% block body %}
+<div class="main-wrapper">
+    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
+         style="background: no-repeat center center; background-color: #c0ccda80">
+        <div class="auth-box row">
+            <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url({{ asset('build/images/big/auth.jpg') }});">
+            </div>
+            <div class="col-lg-5 col-md-7 bg-white">
+                <div class="p-3">
+                    <h2 class="mt-3 text-center">Log In</h2>
+
+                    {% if error %}
+                        <div class="text-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    {% include 'flasher.html.twig' %}
+
+                    <form method="post" class="mt-4">
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">Email</label>
+                                    <input class="form-control" id="uname" type="email" value="{{ last_username }}" name="email"
+                                           placeholder="enter your email" required autofocus>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="pwd">Password</label>
+                                    <input  id="pwd" class="form-control" type="password" name="password"
+                                            placeholder="enter your password" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="remember">
+                                        <input id="remember" type="checkbox" name="_remember_me"> Remember me
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <button type="submit" class="btn btn-block btn-dark">Continue</button>
+                            </div>
+                           <div class="or-seperator">
+                               <i>or</i>
+                           </div>
+                            <div class="col-lg-12 text-center form-group">
+                                <a class="btn btn-block btn-facebook btn-info" href="{{ path('connect_facebook_start') }}">
+                                    <span>Continue with Facebook</span>
+                                </a>
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <a class="btn btn-block btn-google btn-danger" href="{{ path('connect_google_start') }}">
+                                    <span>Continue with Google</span>
+                                </a>
+                            </div>
+                            <div class="col-lg-12 text-center mt-5">
+                                <a href="{{ path('sign.up') }}" class="text-decoration-none">Don't have an account? </a> <br>
+
+                                <a href="{{ path('auth.reset') }}" class="text-decoration-none">Forgot password? </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

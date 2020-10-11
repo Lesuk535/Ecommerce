@@ -1,0 +1,9 @@
+{% if imagePath is null and size == 'small'%}
+    {{ asset('build/images/default-placeholder-small.png') }}
+{% elseif imagePath is null %}
+    {{ asset('build/images/default-placeholder.png') }}
+{% elseif size == 'small' %}
+    {{ imagePath|imagine_filter('squared_thumbnail_small') }}
+{% else %}
+    {{ '/uploads/' ~ imagePath }}
+{% endif %}

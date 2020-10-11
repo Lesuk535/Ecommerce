@@ -1,0 +1,128 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% set facebook = null %}
+{% set facebookIdentity = null %}
+{% set google = null %}
+{% set googleIdentity = null %}
+
+{% block body %}
+    <div class="container rounded bg-white mt-5 mb-5">
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <label type="button" class="btn btn-default btn-sm upload-photo">
+                        <img id="imgthumbnail" class="rounded-circle mt-5" src="{{upload_avatar(user.avatarPath)}}" width="90px">
+                        <span style="display:block">
+                            <i class="fa fa-upload" aria-hidden="true"></i> Upload
+                            {{
+                                form_widget(form.avatar, {'attr': {
+                                    'style': 'display:none'
+                                }})
+                            }}
+                        </span>
+                        <span class="text-info upload-photo-name"></span>
+                        <span class="text-danger text-center upload-photo-error"> {{ form_errors(form.avatar, {'attr': {
+                                'class': 'upload-photo-error'
+                            }}) }}
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-5 border-right">
+                <div class="col-md-12 mt-4 profile-flusher">
+                    {% include 'flasher.html.twig' %}
+                </div>
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-right">Edit your profile</h6>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label class="labels">Name</label>
+                            {{
+                                form_widget(form.firstName, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'First name',
+                                    'value': user.name_first
+                                }})
+                            }}
+                            <span class="text-danger">{{ form_errors(form.firstName) }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Surname</label>
+                            {{
+                                form_widget(form.lastName, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'Last name',
+                                    'value': user.name_last
+                                }})
+                            }}
+                            <span class="text-danger">{{ form_errors(form.lastName) }}</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label class="labels">Email</label>
+                            {{
+                                form_widget(form.newEmail, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'enter your email',
+                                    'value': user.email
+                                }})
+                            }}
+                            <span class="text-danger">{{ form_errors(form.newEmail) }}</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">Role</label><span class="form-control">{{ user_role(user.role) }}</span></div>
+                        <div class="col-md-6"><label class="labels">Status</label><span class="form-control">{{ user_status(user.user_status) }}</span></div>
+                    </div>
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+
+            <div class="col-md-4">
+                {% for network in user.networks %}
+                    {% if network.oauth_type is same as('facebook') %}
+                        {% set facebook = 'facebook' %}
+                        {% set facebookIdentity = network.identity %}
+                    {% elseif network.oauth_type is same as('google')%}
+                        {% set google = 'google' %}
+                        {% set googleIdentity = network.identity %}
+                    {% endif %}
+                {% endfor %}
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center experience mb-4"><h6>Attach or detach social networks</h6></div>
+
+                    <div class="d-flex flex-row mt-3 exp-container">
+                        <div class="attach-network ml-1">
+                            <i class="c-icon c-icon-1xl cib-facebook-f facebook-blue"></i>
+                            <span class="ml-1">Facebook</span>
+                        </div>
+                        <div class="attach-network" style="justify-content: flex-end; width: 100%;">
+                            {{ oauth_icon_control(facebook, facebookIdentity, 'connect_facebook_attach_start') }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex flex-row mt-3 exp-container">
+                        <div class="attach-network ml-1">
+                            <i class="c-icon c-icon-1xl cib-google google-red"></i>
+                            <div class="attach-network-icon">
+                                <span>Google</span>
+                            </div>
+                        </div>
+                        <div class="attach-network" style="justify-content: flex-end; width: 100%;">
+                            {{ oauth_icon_control(google, googleIdentity, 'connect_google_attach_start') }}
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

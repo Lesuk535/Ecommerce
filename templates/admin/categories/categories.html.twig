@@ -1,0 +1,54 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Categories!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('create_category') }}" class="btn btn-success profile-button text-white mb-lg-4">Create Category</a>
+    <table class="table table-responsive-sm table-bordered">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Subcategories</th>
+            <th>Position</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        {% for category in categories %}
+            <tbody>
+            <tr class="categoty-table">
+                <td><img alt="category image" width="65" class="rounded-circle" src="{{ upload_category_image(category.imagePath, 'small') }}"></td>
+                <td><a href="{{ path('edit_category', {'id': category.id}) }}">{{ category.name }}</a></td>
+                <td>Subcategories</td>
+                <td>{{ category.order }}</td>
+                <td>{{ category.status }}</td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+
+    {#                    <div class="dropdown d-inline-block" style="display: flex; width: max-content;">#}
+    {#                        <div class="btn btn-block btn-outline-secondary add-category-btn" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >#}
+    {#                            click to see#}
+    {#                            <div class="dropdown-toggle" style="justify-self: right;">#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    <div class="dropdown-menu no-close dropdown-menu-category" aria-labelledby="dropdownMenuButton">#}
+    {#                        <div class="form-check" style="overflow: auto">#}
+    {#                            {% for checkbox in form.children%}#}
+    {#                                <div class="styled-input-single" style="width: max-content;">#}
+    {#                                    <div class="styled-input-single" style="width: max-content;">#}
+    {#                                        <input type="checkbox" id="create_category_form_children_0" name="create_category_form[children][]" value="b8f19f94-7da0-48f7-b285-4ea47e166f0c">#}
+    {#                                        <label for="create_category_form_children_0">WWWWwwd</label>#}
+
+    {#                                    </div>#}
+    {#                                    {{ form_widget(checkbox) }}#}
+    {#                                    {{ form_label(checkbox) }}#}
+    {#                                    {{ form_errors(checkbox) }}#}
+    {#                                </div>#}
+    {#                            {% endfor %}#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                    </div>#}

@@ -1,0 +1,119 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+    <div class="container rounded bg-white mt-5 mb-5">
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <label type="button" class="btn btn-default btn-sm upload-photo">
+                        <img id="imgthumbnail" class="rounded-circle mt-5" src="{{upload_avatar(user.avatarPath)}}" width="90px">
+                        <span style="display:block">
+                            <i class="fa fa-upload" aria-hidden="true"></i> Upload
+                            {{
+                            form_widget(form.avatar, {'attr': {
+                                'style': 'display:none'
+                            }})
+                            }}
+                        </span>
+                        <span class="text-info upload-photo-name"></span>
+                        <span class="text-danger text-center upload-photo-error"> {{ form_errors(form.avatar, {'attr': {
+                                'class': 'upload-photo-error'
+                            }}) }}</span>
+                    </label>
+                </div>
+                <div class="d-flex flex-column align-items-center text-center">
+                    {% if user.user_status == 'ban' or user.user_status == 'wait'%}
+                        {% set path = 'user_activate' %}
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" style="">Activate user</button>
+                    {% elseif user.user_status == 'active' %}
+                        {% set path = 'user_ban' %}
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter" style="">Ban User</button>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="col-md-9 border-right">
+                <div class="col-md-12 mt-4 profile-flusher">
+                    {% include 'flasher.html.twig' %}
+                </div>
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <h6 class="text-center">Change user information</h6>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label class="labels">Name</label>
+                            {{
+                                form_widget(form.firstName, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'First name',
+                                    'value': user.name_first
+                                }})
+                            }}
+                            {{ form_errors(form.firstName) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Surname</label>
+                            {{
+                            form_widget(form.lastName, {'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'Last name',
+                                'value': user.name_last
+                            }})
+                            }}
+                            {{ form_errors(form.lastName) }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label class="labels">Email</label>
+                            {{
+                                form_widget(form.newEmail, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'enter your email',
+                                    'value': user.email
+                                }})
+                            }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label class="labels">Role</label>
+                            {{
+                                form_widget(form.newRole, {'attr': {
+                                    'class': 'form-control'
+                                }})
+                            }}
+                            {{ form_errors(form.newRole) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center"><button class="btn btn-primary profile-button mb-lg-5" type="submit">Save User</button></div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Do you really want to change the user status?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <form action="{{ path(path, {'id': user.id}) }}" method="post">
+                        <input type="hidden" name="token" value="{{ csrf_token('change_status') }}" />
+                        <button type="submit" class="btn btn-primary">Change</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

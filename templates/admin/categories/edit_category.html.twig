@@ -1,0 +1,137 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Edit category{% endblock %}
+
+{% block body %}
+    <div class="container rounded mt-3 mb-2" style="max-width: 1000px">
+        <div class="row border-bottom">
+            <div class="col-md-10 col-sm-10 col">
+                <div class="btn-group pt-4 pb-2">
+                    <button class="btn btn-danger text-white" data-toggle="modal" data-target="#exampleModalCenter"><i class="c-icon cil-trash m-0"></i></button>
+                </div>
+                <div class="btn-group pl-1 pt-4 pb-2">
+                    <form action="{{ path('edit_category_status', {'id': category.id}) }}" method="post">
+                        <input type="hidden" name="token" value="{{ csrf_token('change_status') }}"/>
+                        {% if category.status == 'active'%}
+                            <input type="hidden" name="status" value="inactive"/>
+                            <button class="btn btn-danger" type="submit" aria-expanded="false">Deactivate</button>
+                        {% else %}
+                            <input type="hidden" name="status" value="active"/>
+                            <button class="btn btn-success" type="submit" aria-expanded="false">Activate</button>
+                        {% endif %}
+                    </form>
+                </div>
+
+                <div class="btn-group pl-1 pt-4 pb-2">
+                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Subcategories</button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="will-change: transform; margin: 0px;">
+                        <a class="dropdown-item  {% if category.attachment_category_count == false %} disabled {% endif %}" href="{{ path('attach_subcategories', {'id': category.id}) }}">Attach</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item {% if category.subcategory_count == false %} disabled {% endif %}" href="{{ path('detach_subcategories', {'id': category.id}) }}">Detach</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item {% if category.subcategory_count <= 1 %} disabled {% endif %}" href="{{ path('subcategories_position', {'id': category.id}) }}">Positions</a>
+                    </div>
+                </div>
+
+                <div class="btn-group pl-1 pt-4 pb-2">
+                    <a href="{{ path('category_position', {'id': category.id}) }}" class="btn btn-secondary">Category position</a>
+                </div>
+            </div>
+
+            <div class="category-action btn-group pl-3 pt-4 pb-2 col-md-2 col-sm-2 justify-content-end align-self-end">
+                <span>Actions</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container rounded mt-1 mb-5" style="max-width: 1000px">
+
+        {{ form_start(form) }}
+        <div class="row bg-white">
+            <div class="col-md-5 col-sm-6 border-right upload-category p-0">
+                    <div class="category-bg" ></div>
+                    <div class="upload-category-image" style="background-image: url({{upload_category_image(category.imagePath)}})">
+                    </div>
+                    <label type="button" class="btn btn-default btn-sm category-image-label category-bg " id="category_image">
+                    <span style="display:block">
+                        <i class="fa fa-upload text-white" aria-hidden="true"></i>
+                         {{
+                         form_widget(form.image, {'attr': {
+                             'style': 'display:none'
+                         }})
+                         }}
+                    </span>
+                    </label>
+                </div>
+            <div class="col-md-7 col-sm-6 border-right">
+                <div class="col-md-12 mt-4 d-flex category-flusher justify-content-center mb-0">
+                    {% include 'flasher.html.twig' %}
+                </div>
+                <div class="col-md-12 profile-flusher mb-0">
+                    <span class="text-danger w-100 d-block list-style-none text-center">{{ form_errors(form.image, {'attr': {
+                            'class': 'upload-photo-error'
+                        }}) }}
+                    </span>
+                </div>
+                <div class="col-md-12 profile-flusher mb-0">
+                    <span class="text-info d-block w-100 upload-photo-name text-center"></span>
+                </div>
+
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <h6 class="text-center">Edit category</h6>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label class="labels">Category</label>
+                            <span class="text-danger ist-style-none ">{{ form_errors(form.name) }}</span>
+                            {{
+                            form_widget(form.name, {'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'category name',
+                                'value': category.name
+                            }})
+                            }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label class="labels">Description</label>
+                            <span class="text-danger list-style-none ">{{ form_errors(form.description) }}</span>
+                                {{
+                                form_widget(form.description, {'attr': {
+                                    'class': 'form-control',
+                                    'style': 'max-height: 200px',
+                                    'placeholder': 'category description'
+                                }})
+                                }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="text-center"><button class="btn btn-primary profile-button mb-lg-5" type="submit">Save Category</button></div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Do you really want to delete category?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <form action="{{ path('delete_category', {'id': category.id}) }}" method="post">
+                        <input type="hidden" name="token" value="{{ csrf_token('delete_category') }}" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

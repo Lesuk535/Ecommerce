@@ -1,0 +1,98 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}New Category{% endblock %}
+
+{% block body %}
+    <div class="container rounded bg-white mt-5 mb-5" style="max-width: 1000px">
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-4 border-right upload-category p-0">
+                <div class="category-bg" ></div>
+                <div class="upload-category-image" style="min-height:400px; background-image: url({{ asset('build/images/default-placeholder.png') }})">
+                    <span class="text-danger d-block pt-3 list-style-none text-center">{{ form_errors(form.image, {'attr': {
+                            'class': 'upload-photo-error'
+                        }}) }}
+                    </span>
+                    <span class="text-info d-block w-100 upload-photo-name text-center"></span>
+                </div>
+                <label type="button" class="btn btn-default btn-sm category-image-label category-bg " id="category_image">
+                    <span style="display:block">
+                        <i class="fa fa-upload text-white" aria-hidden="true"></i>
+                         {{
+                             form_widget(form.image, {'attr': {
+                                 'style': 'display:none'
+                             }})
+                         }}
+                    </span>
+                </label>
+            </div>
+
+            <div class="col-md-8 border-right">
+                <div class="col-md-12 mt-4 profile-flusher mb-0">
+                    {% include 'flasher.html.twig' %}
+                </div>
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <h6 class="text-center">Create new category</h6>
+                    </div>
+                    <div class="row mt-2">
+                        <div {% if not form.children is empty %} class="col-md-6"> {% else %} class="col-md-12"> {% endif %}
+                            <label class="labels">Category</label>
+                            <span class="text-danger ist-style-none ">{{ form_errors(form.name) }}</span>
+                            {{
+                            form_widget(form.name, {'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'category name'
+                            }})
+                            }}
+                        </div>
+                        {% if not form.children is empty %}
+                            <div class="col-md-6" >
+                                <label class="labels">Subcategories</label>
+                                <span class="text-danger ist-style-none">{{ form_errors(form.children) }}</span>
+                                <div class="dropdown d-inline-block w-100" style="display: flex;">
+                                    <div class="btn btn-block btn-outline-secondary add-category-btn" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                        click to add
+                                        <div class="dropdown-toggle" style="justify-self: right;">
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown-menu no-close dropdown-menu-category" aria-labelledby="dropdownMenuButton">
+                                        <div class="form-check" style="overflow: auto">
+                                            {% for checkbox in form.children%}
+                                                <div class="styled-input-single" style="width: max-content;">
+                                                    {{ form_widget(checkbox) }}
+                                                    {{ form_label(checkbox) }}
+                                                    {{ form_errors(checkbox) }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            {{ form_widget(form.children, { 'attr': {'class': 'hidden-row'} }) }}
+                        {% endif %}
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label class="labels">Description</label>
+                            <span class="text-danger list-style-none ">{{ form_errors(form.description) }}</span>
+                            {{
+                                form_widget(form.description, {'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'category description'
+                                }})
+                            }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="text-center"><button class="btn btn-primary profile-button mb-lg-5" type="submit">Create</button></div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

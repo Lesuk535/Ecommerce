@@ -1,0 +1,44 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Category position{% endblock %}
+
+{% block body %}
+    <div class="w-100 d-flex justify-content-center">
+        <span class="position_response text-center m-0" style="max-width: max-content"></span>
+    </div>
+    <div class="row justify-content-center">
+        <div class="card-body col-md-4">
+            <div class="list-group">
+                <div class="list-group-item active justify-content-between d-flex">
+                    {% if parentCategory is null %}
+                        Categories
+                    {% else %}
+                        {{ parentCategory.name }}
+                        <a href="{{ path('category_position', {'id': parentCategory.id}) }}"
+                           title="change parent position"
+                           class="text-decoration-none change-category-position text-white c-icon cil-wrap-text align-self-center">
+                        </a>
+                    {% endif %}
+                </div>
+
+                <div class="category-position">
+                    {% set i = 0 %}
+                    {% for subcategory in categories %}
+                        <div data-index="{{ i }}" data-position="{{ subcategory.order }}" data-id="{{ subcategory.id }}" class="d-flex justify-content-between list-group-item">
+                            {{ subcategory.name }}
+                            <a title="edit category"
+                               href="{{ path('edit_category', {'id': subcategory.id}) }}"
+                               class="text-decoration-none text-success edit-pencil c-icon cil-pencil align-self-center">
+                            </a>
+                        </div>
+                        {% set i = i + 1%}
+                    {% endfor %}
+                    <input id="change_position_input" type="hidden" name="token" value="{{ csrf_token('change_position') }}" />
+                </div>
+            </div>
+            <div class="text-center mt-2">
+                <button id="change_position" data-path="{{ path('change_category_position', {'id': id}) }}" class="btn btn-primary" style="width: max-content">Save Position</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

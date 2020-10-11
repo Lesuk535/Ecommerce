@@ -1,0 +1,5 @@
+{% if avatarPath is null %}
+   {{ asset('build/images/user.png') }}
+{% else %}
+    {{avatarPath|imagine_filter('squared_thumbnail_small') }}
+{% endif %}
