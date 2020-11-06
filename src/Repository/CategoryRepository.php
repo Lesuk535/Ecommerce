@@ -39,7 +39,9 @@ class CategoryRepository extends ServiceEntityRepository implements ICategoryRep
     public function getMaxOrder(): int
     {
         $qb = $this->createQueryBuilder('c');
-        return $qb->select($qb->expr()->max('c.categoryOrder'))
+        $result =  $qb->select($qb->expr()->max('c.categoryOrder'))
             ->getQuery()->getSingleScalarResult();
+
+        return (int) $result;
     }
 }
