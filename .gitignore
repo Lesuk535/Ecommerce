@@ -1,4 +1,4 @@
-
+.idea/
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -28,5 +28,7 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> liip/imagine-bundle ###
-/public/media/cache/
+/public/uploads/media/cache/
 ###< liip/imagine-bundle ###
+
+/postgres-data
